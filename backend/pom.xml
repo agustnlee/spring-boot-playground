@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.0.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/> 
 	</parent>
 	<groupId>com.agustin</groupId>
 	<artifactId>backend</artifactId>
@@ -89,12 +89,6 @@
         	<groupId>com.cloudinary</groupId>
         	<artifactId>cloudinary-http44</artifactId>
         	<version>1.36.0</version>
-    	</dependency>
-
-		<dependency>
-        	<groupId>io.hypersistence</groupId>
-        	<artifactId>hypersistence-utils-hibernate-63</artifactId>
-        	<version>3.9.0</version>
     	</dependency>
 
 	 	<dependency>
