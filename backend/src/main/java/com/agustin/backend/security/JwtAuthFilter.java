@@ -19,7 +19,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtHelper jwtHelper;
 
-    public JwtAuthFilter(JwtHelper jwtHelper) {
+    public JwtAuthFilter(JwtHelper jwtHelper) { 
         this.jwtHelper = jwtHelper;
     }
 
@@ -27,12 +27,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
                                     throws ServletException, IOException {
 
-        String header = request.getHeader("Authorization");
+        String token = null;
 
-        if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);  // removing "Bearer " prefix
 
-            if (jwtHelper.isTokenValid(token)) {
+        if (request.getCookies() != null) { // TOKEN EXTRACTION with cookie
+            for (jakarta.servlet.http.Cookie cookie : request.getCookies()) {
+                if ("token".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (token != null && jwtHelper.isTokenValid(token)) {
                 String email    = jwtHelper.extractEmail(token);
                 String role     = jwtHelper.extractRole(token);
                 Long   userId   = jwtHelper.extractUserId(token);
@@ -47,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(auth); // filter run, validate, set context every time
                 // spring boot in controller injects automatically from the context (for any proetected controller)
-            }
+            
         }
 
         // for public endpoinst taht do not requerire endpoint
