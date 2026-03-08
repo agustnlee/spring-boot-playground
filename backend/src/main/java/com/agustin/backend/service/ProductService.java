@@ -62,6 +62,7 @@ public class ProductService {
     }
 
     // GET one — full detail on ONE CARD 
+    @Transactional(readOnly = true) // for db operation as one atomic unit, else rollback. readOnly for lazy loaded rel and dirty checks since only local (since no broadcast)
     public ProductDetailDto getById(Long id) {
         Product product = productRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Product", id));

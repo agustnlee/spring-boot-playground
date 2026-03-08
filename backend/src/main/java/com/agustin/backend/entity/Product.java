@@ -45,7 +45,7 @@ public class Product {
     private Map<String, Object> attributes = new HashMap<>();
 
     
-    @ManyToOne(fetch = FetchType.LAZY) // lazy meaning no need to fetch until ask, standard
+    @ManyToOne(fetch = FetchType.LAZY) // could eager for loading product and owner together in same query, but intead transactional in getById in product service
     @JoinColumn(name = "user_id", nullable = false) // userid column
     private User owner;
 
