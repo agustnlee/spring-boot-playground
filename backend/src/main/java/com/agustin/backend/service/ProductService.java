@@ -11,6 +11,9 @@ import com.agustin.backend.exception.UnauthorizedException;
 import com.agustin.backend.repository.ProductRepository;
 import com.agustin.backend.repository.TagRepository;
 import com.agustin.backend.repository.UserRepository;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +42,7 @@ public class ProductService {
     // Handles pagination and slicing
 
     // GET all with paginated, optional search and tag filter. FOR CARDS ONLY
+    @Transactional(readOnly = true)   // keeps session open while mapping DTOs
     public Page<ProductCardDto> getAll(int page, int size, String search, String tag) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("uploadedAt").descending());
 
@@ -65,6 +69,7 @@ public class ProductService {
     }
 
     // CREATE
+    @Transactional
     public ProductDetailDto create(CreateProductDto dto, MultipartFile image, Long userId) {
         User owner = userRepository.findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("User", userId));
@@ -100,6 +105,7 @@ public class ProductService {
     }
 
     // DELETE only owner can its own
+    @Transactional
     public void delete(Long productId, Long userId) {
         Product product = productRepository.findById(productId)
             .orElseThrow(() -> new ResourceNotFoundException("Product", productId));
