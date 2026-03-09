@@ -58,7 +58,7 @@ public class AuthController { // WRAPPING IN REQUEST ENTITY for control status c
         ResponseCookie cookie = ResponseCookie.from("token", token)
             .httpOnly(true)
             .secure(cookieSecure)
-            .sameSite("Strict")
+            .sameSite("None")
             .maxAge(86400)
             .path("/")
             .build();
@@ -69,7 +69,7 @@ public class AuthController { // WRAPPING IN REQUEST ENTITY for control status c
         ResponseCookie cookie = ResponseCookie.from("token", "")
             .httpOnly(true)
             .secure(cookieSecure)
-            .sameSite("Strict")
+            .sameSite("None")
             .maxAge(0)
             .path("/")
             .build();
