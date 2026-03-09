@@ -3,7 +3,6 @@ WORKDIR /app
 COPY . .
 RUN chmod +x mvnw && ./mvnw -DskipTests clean install
 
-
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
