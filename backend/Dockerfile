@@ -1,7 +1,8 @@
 FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /app
 COPY . .
-RUN ./mvnw -DskipTests clean install
+RUN chmod +x mvnw && ./mvnw -DskipTests clean install
+
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
